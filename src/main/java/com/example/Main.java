@@ -81,7 +81,7 @@ public class Main {
         // }
 
         while (rsJava.next()) {
-          outputJava.add("Read from DB: " + " " + "Name : " + rsJava.getString("Name") +"|| " +"Email : " +  rsJava.getString("Email"));
+          outputJava.add("id : " + rsJava.getString("id") +"|| " +"LastName : " +  rsJava.getString("LastName") +"|| " + "Name : " + rsJava.getString("Name") +"|| " +"Email : " +  rsJava.getString("Email"));
         }
 
         //model.put("records", outputSalesforce);
