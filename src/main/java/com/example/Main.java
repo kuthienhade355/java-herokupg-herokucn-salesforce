@@ -83,7 +83,7 @@ public class Main {
           outputJava.add("Read from DB: " + " " + "Name : " + rsJava.getString("Name") +"|| " +"Email : " +  rsJava.getString("Email"));
         }
 
-        model.put("records", outputHeroku);
+        model.put("records", outputSalesforce);
         model.put("recordJAVAs", outputJava);
         return "index";
       } catch (Exception e) {
