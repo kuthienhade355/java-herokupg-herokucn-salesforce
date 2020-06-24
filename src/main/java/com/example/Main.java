@@ -132,19 +132,19 @@ public class Main {
          + " values (?, ?, ?, ?)";
 
       //create the mysql insert heroku 
-      PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
-      preparedStmt.setInt(1, 1);
-      preparedStmt.setString (1, "tranquan");
-      preparedStmt.setString (2, "Quan");
-      preparedStmt.setString (3, "briandent@trailhead.com");
-      preparedStmt.execute();
+      // PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
+      // preparedStmt.setInt(1, 1);
+      // preparedStmt.setString (1, "tranquan");
+      // preparedStmt.setString (2, "Quan");
+      // preparedStmt.setString (3, "briandent@trailhead.com");
+      // preparedStmt.execute();
 
       //create the mysql insert preparedstatement 
-      PreparedStatement preparedStmt1 = connection.prepareStatement(queryInsert);
-      preparedStmt1.setString (1, "Test");
-      preparedStmt1.setString (2, "TestInsert");
-      preparedStmt1.setString (3, "testInsert@trailhead.com");
-      preparedStmt1.execute();
+      // PreparedStatement preparedStmt1 = connection.prepareStatement(queryInsert);
+      // preparedStmt1.setString (1, "Test");
+      // preparedStmt1.setString (2, "TestInsert");
+      // preparedStmt1.setString (3, "testInsert@trailhead.com");
+      // preparedStmt1.execute();
       
       //update Salesforce
       // preparedStmt.setString(1, "Monkey D Luffy");
@@ -153,8 +153,8 @@ public class Main {
         // preparedStmt.executeUpdate();
 
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-        //ResultSet rs = stmt.executeQuery("SELECT * FROM public.userAccount"); //heroku
+       // ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM public.userAccount"); //heroku
         
         ArrayList<String> output = new ArrayList<String>();
         while (rs.next()) {
