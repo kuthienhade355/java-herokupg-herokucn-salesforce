@@ -159,7 +159,7 @@ public class Main {
   }
 
   @RequestMapping("/hello")
-  String db(Map<String, Object> model) {
+  String hello(Map<String, Object> model) {
    try (Connection connection = dataSource.getConnection()) {
       String queryInsert = " insert into User (Name,LastName,Email)"
         + " values (?, ? , ?)";
