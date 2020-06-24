@@ -161,7 +161,7 @@ public class Main {
   @RequestMapping("/hello")
   String hello(Map<String, Object> model) {
    try (Connection connection = dataSource.getConnection()) {
-      String queryInsert = " INSERT INTO public."userAccount" (user_id, username, lastname, email)"
+      String queryInsert = " INSERT INTO public.userAccount (user_id, username, lastname, email)"
         + " VALUES (?, ?, ?, ?)";
 
       //create the mysql insert preparedstatement 
