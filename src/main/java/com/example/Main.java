@@ -94,7 +94,7 @@ public class Main {
   }   
 
   @RequestMapping(params = "save", method = RequestMethod.POST)   
-  public String saveUser(HttpServletRequest request, @ModelAttribute User user, BindingResult result, SessionStatus status) {  
+  public String saveUser() {  
       try (Connection connection = dataSource.getConnection()) {
       String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
         + " values (?, ? , ?)";
