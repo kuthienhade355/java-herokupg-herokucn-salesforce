@@ -161,14 +161,15 @@ public class Main {
   @RequestMapping("/hello")
   String hello(Map<String, Object> model) {
    try (Connection connection = dataSource.getConnection()) {
-      String queryInsert = " insert into User (Name,LastName,Email)"
-        + " values (?, ? , ?)";
+      String queryInsert = " INSERT INTO public."userAccount" (user_id, username, lastname, email)"
+        + " VALUES (?, ?, ?, ?)";
 
       //create the mysql insert preparedstatement 
       PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
-      preparedStmt.setString (1, "Barney");
-      preparedStmt.setString (2, "Tran Minh Quan");
-      preparedStmt.setString (3, "briandent@trailhead.com");
+      preparedStmt.setString (1, "1");
+      preparedStmt.setString (2, "tranquan");
+      preparedStmt.setString (3, "Quan");
+      preparedStmt.setString (4, "briandent@trailhead.com");
       preparedStmt.execute();
 
       Statement stmt = connection.createStatement();
