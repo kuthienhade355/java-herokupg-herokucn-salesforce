@@ -66,6 +66,20 @@ public class Main {
 
   @RequestMapping("/")
   String index() {
+    try (Connection connection = dataSource.getConnection()) {
+      String queryInsert = " insert into User (Name,LastName,Email)"
+        + " values (?, ? , ?)";
+
+      //create the mysql insert preparedstatement 
+      PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
+      preparedStmt.setString (1, "Barney");
+      preparedStmt.setString (2, "Tran Minh Quan");
+      preparedStmt.setString (3, "briandent@trailhead.com");
+      preparedStmt.execute();
+    } catch (Exception e) {
+      return "error";
+    }
+    
     return "index";
   }
 
