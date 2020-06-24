@@ -1,27 +1,104 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Web Page Heroku Connect </title>
+<style>
+    body {
+        font: 14px Arial,sans-serif; 
+        margin: 0px;
+    }
+    header {
+        padding: 10px 20px;
+        background: #acb3b9; 
+    }
+    header h1 {
+        font-size: 24px;
+    }
+    .container {
+        width: 100%;
+        background: #f2f2f2;  
+    }
+    nav, section {
+        float: left; 
+        padding: 20px;
+        min-height: 170px;
+        box-sizing: border-box;
+    }
+    section {
+        width: 80%;
+    }
+    nav {
+        width: 20%;             
+        background: #d4d7dc;
+    }    
+    nav ul {
+        list-style: none; 
+        line-height: 24px;
+        padding: 0px; 
+    }
+    nav ul li a {
+        color: #333;
+    }
+    .clearfix:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    footer {
+        background: #acb3b9;            
+        text-align: center;
+        padding: 5px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tutorial Republic</h1>
+        </header>
+        <div class="wrapper clearfix">
+            <nav>
+                <ul>
+                  <form:form method="post" action="save">
+                    <table >    
+                      <tr>    
+                       <td>Name : </td>   
+                       <td><form:input path="name"  /></td>  
+                      </tr>    
+                      <tr>    
+                       <td>LastName :</td>    
+                       <td><form:input path="LastName" /></td>  
+                      </tr>   
+                      <tr>    
+                       <td>Email :</td>    
+                       <td><form:input path="Email" /></td>  
+                      </tr>   
+                      <tr>    
+                       <td><input type="submit" value="redirect" /></td>    
+                       <td><input type="submit" value="Save" /></td>    
+                      </tr>    
+                     </table>    
+                  </form:form>
+                </ul>
+            </nav>
+            <section>
+                <h2>Datatable</h2>
+                <div class="container">
+                  <h1>Database Output</h1>
+                  <ul th:each="record : ${records}">
+                    <li th:text="${record}"/>
+                  </ul>
+                </div>
+            </section>
+        </div>
+        <footer>
+            <p>copyright &copy; tran minh quan 2020</p>
+        </footer>
+    </div>
+</body>
+</html>
 
-  Tran Minh Quan TEST 2
-  <h1>Add New Contact</h1>  
-  <form:form method="post" action="redirect">
-    <input type="submit" value="redirect" /></td>
-  </form:form>
-  <form:form method="post" action="save">
-    <table >    
-      <tr>    
-       <td>Name : </td>   
-       <td><form:input path="name"  /></td>  
-      </tr>    
-      <tr>    
-       <td>LastName :</td>    
-       <td><form:input path="LastName" /></td>  
-      </tr>   
-      <tr>    
-       <td>Email :</td>    
-       <td><form:input path="Email" /></td>  
-      </tr>   
-      <tr>    
-       <td> </td>    
-       <td><input type="submit" value="Save" /></td>    
-      </tr>    
-     </table>    
-  </form:form>    
+      
