@@ -121,39 +121,38 @@ public class Main {
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
-      // String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
-      //   + " values (?, ? , ?)";
+
+      //Syntax Query salesforce 
+      String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
+         + " values (?, ? , ?)";
       // String queryUpdate = "update Salesforce.Contact SET LastName = ?, Email = ? WHERE LastName = ?";
 
-
-      // String queryHeroku = " INSERT INTO public.userAccount (user_id, username, lastname, email)"
-      //   + " VALUES (?, ?, ?, ?)";
+      //Syntax Query heroku
+      String queryHeroku = " insert into public.userAccount (user_id, username, lastname, email)"
+         + " values (?, ?, ?, ?)";
 
       //create the mysql insert heroku 
-      // PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
-      // preparedStmt.setString (1, "1");
-      // preparedStmt.setString (2, "tranquan");
-      // preparedStmt.setString (3, "Quan");
-      // preparedStmt.setString (4, "briandent@trailhead.com");
-      // preparedStmt.execute();
+      PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
+      preparedStmt.setString (1, "1");
+      preparedStmt.setString (2, "tranquan");
+      preparedStmt.setString (3, "Quan");
+      preparedStmt.setString (4, "briandent@trailhead.com");
+      preparedStmt.execute();
 
       //create the mysql insert preparedstatement 
-      // PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
-      // preparedStmt.setString (1, "Barney");
-      // preparedStmt.setString (2, "Tran Minh Quan");
-      // preparedStmt.setString (3, "briandent@trailhead.com");
-      // preparedStmt.execute();
+      PreparedStatement preparedStmt1 = connection.prepareStatement(queryInsert);
+      preparedStmt1.setString (1, "Test");
+      preparedStmt1.setString (2, "TestInsert");
+      preparedStmt1.setString (3, "testInsert@trailhead.com");
+      preparedStmt1.execute();
       
-      //update
+      //update Salesforce
       // preparedStmt.setString(1, "Monkey D Luffy");
         // preparedStmt.setString(2, "Monkey D Luffy");
         // preparedStmt.setString(3, "Monkey D Luffy");
         // preparedStmt.executeUpdate();
 
         Statement stmt = connection.createStatement();
-        //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-        //stmt.executeUpdate("INSERT INTO Salesforce.Contact VALUES (now())");
-
         ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
         //ResultSet rs = stmt.executeQuery("SELECT * FROM public.userAccount"); //heroku
         
