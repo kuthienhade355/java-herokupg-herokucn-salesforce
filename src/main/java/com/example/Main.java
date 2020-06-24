@@ -154,7 +154,7 @@ public class Main {
 
         Statement stmt = connection.createStatement();
        // ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-        ResultSet rs = stmt.executeQuery('SELECT * FROM public."Contact"'); //heroku
+        ResultSet rs = stmt.executeQuery("SELECT * FROM public.'Contact'"); //heroku
         
         ArrayList<String> output = new ArrayList<String>();
         while (rs.next()) {
