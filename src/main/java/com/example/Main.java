@@ -66,20 +66,6 @@ public class Main {
 
   @RequestMapping("/")
   String index() {
-    try (Connection connection = dataSource.getConnection()) {
-      String queryInsert = " insert into User (Name,LastName,Email)"
-        + " values (?, ? , ?)";
-
-      //create the mysql insert preparedstatement 
-      PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
-      preparedStmt.setString (1, "Barney");
-      preparedStmt.setString (2, "Tran Minh Quan");
-      preparedStmt.setString (3, "briandent@trailhead.com");
-      preparedStmt.execute();
-    } catch (Exception e) {
-      return "error";
-    }
-    
     return "index";
   }
 
@@ -148,29 +134,52 @@ public class Main {
       
       //update
       // preparedStmt.setString(1, "Monkey D Luffy");
-      // preparedStmt.setString(2, "Monkey D Luffy");
-      // preparedStmt.setString(3, "Monkey D Luffy");
-      // preparedStmt.executeUpdate();
+        // preparedStmt.setString(2, "Monkey D Luffy");
+        // preparedStmt.setString(3, "Monkey D Luffy");
+        // preparedStmt.executeUpdate();
+
+        Statement stmt = connection.createStatement();
+        //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+        //stmt.executeUpdate("INSERT INTO Salesforce.Contact VALUES (now())");
+
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
+        
+        ArrayList<String> output = new ArrayList<String>();
+        while (rs.next()) {
+          output.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
+          System.out.printf("%-30.30s  %-30.30s%n", rs.getString("Name"), rs.getString("Email"));
+        }
+
+        model.put("records", output);
+        return "db";
+      } catch (Exception e) {
+        model.put("message", e.getMessage());
+        return "error";
+      }
+  }
+
+  @RequestMapping("/hello")
+  String db(Map<String, Object> model) {
+   try (Connection connection = dataSource.getConnection()) {
+      String queryInsert = " insert into User (Name,LastName,Email)"
+        + " values (?, ? , ?)";
+
+      //create the mysql insert preparedstatement 
+      PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
+      preparedStmt.setString (1, "Barney");
+      preparedStmt.setString (2, "Tran Minh Quan");
+      preparedStmt.setString (3, "briandent@trailhead.com");
+      preparedStmt.execute();
 
       Statement stmt = connection.createStatement();
-      //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      //stmt.executeUpdate("INSERT INTO Salesforce.Contact VALUES (now())");
-
-      ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-      
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
-         System.out.printf("%-30.30s  %-30.30s%n", rs.getString("Name"), rs.getString("Email"));
-      }
-
-      model.put("records", output);
-      return "db";
+      ResultSet rs = stmt.executeQuery("SELECT * FROM User");
+      return "hello";
     } catch (Exception e) {
-      model.put("message", e.getMessage());
       return "error";
     }
   }
+
+  
 
   @Bean 
   public DataSource dataSource() throws SQLException {
