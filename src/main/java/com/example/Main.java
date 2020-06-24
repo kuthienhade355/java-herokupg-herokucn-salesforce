@@ -69,8 +69,9 @@ public class Main {
   String index(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-      ResultSet rsJava = stmt.executeQuery("SELECT * FROM public.contact"); //Java insert
+      ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.contact");
+      Statement stmt2 = connection.createStatement();
+      ResultSet rsJava = stmt2.executeQuery("SELECT * FROM public.contact"); //Java insert
         
         ArrayList<String> outputSalesforce = new ArrayList<String>();
         ArrayList<String> outputJava = new ArrayList<String>();
