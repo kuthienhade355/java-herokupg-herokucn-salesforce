@@ -49,11 +49,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;    
 import org.springframework.web.bind.annotation.RequestMapping;    
 import org.springframework.web.bind.annotation.RequestMethod;       
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -71,7 +66,7 @@ public class Main {
   }
 
   @RequestMapping("/")
-  String index() {
+  String index(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
@@ -92,47 +87,14 @@ public class Main {
       // return "index";
   }
 
-  @WebServlet("/save")
-  public class save extends HttpServlet {
-  
-      protected void doPost(HttpServletRequest request,
-              HttpServletResponse response) throws ServletException, IOException {
-          
-          // read form fields
-          String Name = request.getParameter("Name");
-          String LastName = request.getParameter("LastName");
-          String Email = request.getParameter("Email");
-          
-          System.out.println("Name: " + Name);
-          System.out.println("LastName: " + LastName);
-  
-          // do some processing here...
-          
-           try (Connection connection = dataSource.getConnection()) {
-            String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
-              + " values (?, ? , ?)";
-          
-            // create the mysql insert preparedstatement 
-            PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
-            preparedStmt.setString (1, "Name");
-            preparedStmt.setString (2, "LastName");
-            preparedStmt.setString (3, "Email");
-            preparedStmt.execute();
-             return "/"; 
-            } catch (Exception e) {
-            return "error";
-          }
-      }
-  }
-
 
   @RequestMapping(value="/redirect",method = RequestMethod.POST)    
   public String redirect(){     
     return "db";//will redirect to viewemp request mapping    
   }   
 
-  @RequestMapping(value="/save",method = RequestMethod.POST)    
-  String save(){    
+  @RequestMapping(params = "save", method = RequestMethod.POST)   
+  public String saveUser(HttpServletRequest request, @ModelAttribute User user, BindingResult result, SessionStatus status) {  
       try (Connection connection = dataSource.getConnection()) {
       String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
         + " values (?, ? , ?)";
