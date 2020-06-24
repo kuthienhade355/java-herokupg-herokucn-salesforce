@@ -70,15 +70,21 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-      // ResultSet rs = stmt.executeQuery("SELECT * FROM public.contact"); //heroku
+      ResultSet rsJava = stmt.executeQuery("SELECT * FROM public.contact"); //Java insert
         
-        ArrayList<String> output = new ArrayList<String>();
+        ArrayList<String> outputSalesforce = new ArrayList<String>();
+        ArrayList<String> outputJava = new ArrayList<String>();
+        
         while (rs.next()) {
-          output.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
-          System.out.printf("%-30.30s  %-30.30s%n", rs.getString("Name"), rs.getString("Email"));
+          outputSalesforce.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
         }
 
-        model.put("records", output);
+        while (rsJava.next()) {
+          outputJava.add("Read from DB: " + " " + "Name : " + rsJava.getString("Name") +"|| " +"Email : " +  rsJava.getString("Email"));
+        }
+
+        model.put("records", outputHeroku);
+        model.put("recordJAVAs", outputJava);
         return "index";
       } catch (Exception e) {
         model.put("message", e.getMessage());
