@@ -66,6 +66,19 @@ public class Main {
 
   @RequestMapping("/")
   String index() {
+    try (Connection connection = dataSource.getConnection()) {
+      String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
+        + " values (?, ? , ?)";
+     
+      // create the mysql insert preparedstatement 
+      PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
+      preparedStmt.setString (1, "Quandeptrai");
+      preparedStmt.setString (2, "QuandeptraiQuadi");
+      preparedStmt.setString (3, "Quandeptrai@trailhead.com");
+      preparedStmt.execute(); 
+      } catch (Exception e) {
+      return "error";
+    }
     return "index";
   }
 
@@ -95,6 +108,7 @@ public class Main {
   //       }
   //       return "db";
   // }
+  
   @RequestMapping(value="/redirect",method = RequestMethod.POST)    
   public String redirect(){     
     return "db";//will redirect to viewemp request mapping    
