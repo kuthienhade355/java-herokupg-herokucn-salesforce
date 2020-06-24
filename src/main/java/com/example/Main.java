@@ -68,23 +68,23 @@ public class Main {
   @RequestMapping("/")
   String index(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.contact");
+      //Statement stmt = connection.createStatement();
+      //ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.contact");
       Statement stmt2 = connection.createStatement();
       ResultSet rsJava = stmt2.executeQuery("SELECT * FROM public.contact"); //Java insert
         
-        ArrayList<String> outputSalesforce = new ArrayList<String>();
+        //ArrayList<String> outputSalesforce = new ArrayList<String>();
         ArrayList<String> outputJava = new ArrayList<String>();
         
-        while (rs.next()) {
-          outputSalesforce.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
-        }
+        // while (rs.next()) {
+        //   outputSalesforce.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
+        // }
 
         while (rsJava.next()) {
           outputJava.add("Read from DB: " + " " + "Name : " + rsJava.getString("Name") +"|| " +"Email : " +  rsJava.getString("Email"));
         }
 
-        model.put("records", outputSalesforce);
+        //model.put("records", outputSalesforce);
         model.put("recordJAVAs", outputJava);
         return "index";
       } catch (Exception e) {
