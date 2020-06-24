@@ -126,16 +126,16 @@ public class Main {
       // String queryUpdate = "update Salesforce.Contact SET LastName = ?, Email = ? WHERE LastName = ?";
 
 
-      String queryHeroku = " INSERT INTO public.userAccount (user_id, username, lastname, email)"
-        + " VALUES (?, ?, ?, ?)";
+      // String queryHeroku = " INSERT INTO public.userAccount (user_id, username, lastname, email)"
+      //   + " VALUES (?, ?, ?, ?)";
 
       //create the mysql insert heroku 
-      PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
-      preparedStmt.setString (1, "1");
-      preparedStmt.setString (2, "tranquan");
-      preparedStmt.setString (3, "Quan");
-      preparedStmt.setString (4, "briandent@trailhead.com");
-      preparedStmt.execute();
+      // PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
+      // preparedStmt.setString (1, "1");
+      // preparedStmt.setString (2, "tranquan");
+      // preparedStmt.setString (3, "Quan");
+      // preparedStmt.setString (4, "briandent@trailhead.com");
+      // preparedStmt.execute();
 
       //create the mysql insert preparedstatement 
       // PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
@@ -154,13 +154,13 @@ public class Main {
         //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
         //stmt.executeUpdate("INSERT INTO Salesforce.Contact VALUES (now())");
 
-        //ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
-        ResultSet rs = stmt.executeQuery("SELECT * FROM public.userAccount"); //heroku
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
+        //ResultSet rs = stmt.executeQuery("SELECT * FROM public.userAccount"); //heroku
         
         ArrayList<String> output = new ArrayList<String>();
         while (rs.next()) {
-          output.add("Read from DB: " + " " + "Name : " + rs.getString("username") +"|| " +"Email : " +  rs.getString("email"));
-          System.out.printf("%-30.30s  %-30.30s%n", rs.getString("username"), rs.getString("email"));
+          output.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
+          System.out.printf("%-30.30s  %-30.30s%n", rs.getString("Name"), rs.getString("Email"));
         }
 
         model.put("records", output);
