@@ -128,15 +128,14 @@ public class Main {
       // String queryUpdate = "update Salesforce.Contact SET LastName = ?, Email = ? WHERE LastName = ?";
 
       //Syntax Query heroku
-      String queryHeroku = " insert into public.userAccount (id, Name, LastName, email)"
-         + " values (?, ?, ?, ?)";
+      String queryHeroku = " insert into public.userAccount (Name,LastName,email)"
+         + " values (?, ?, ?)";
 
       //create the mysql insert heroku 
       PreparedStatement preparedStmt = connection.prepareStatement(queryHeroku);
-      preparedStmt.setString (1, "1");
-      preparedStmt.setString (2, "tranquan");
-      preparedStmt.setString (3, "Quan");
-      preparedStmt.setString (4, "briandent@trailhead.com");
+      preparedStmt.setString (1, "tranquan");
+      preparedStmt.setString (2, "Quan");
+      preparedStmt.setString (3, "briandent@trailhead.com");
       preparedStmt.execute();
 
       //create the mysql insert preparedstatement 
