@@ -49,6 +49,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;    
 import org.springframework.web.bind.annotation.RequestMapping;    
 import org.springframework.web.bind.annotation.RequestMethod;       
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 @SpringBootApplication
@@ -66,35 +72,60 @@ public class Main {
 
   @RequestMapping("/")
   String index() {
-    return "index";
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
+      // ResultSet rs = stmt.executeQuery("SELECT * FROM public.contact"); //heroku
+        
+        ArrayList<String> output = new ArrayList<String>();
+        while (rs.next()) {
+          output.add("Read from DB: " + " " + "Name : " + rs.getString("Name") +"|| " +"Email : " +  rs.getString("Email"));
+          System.out.printf("%-30.30s  %-30.30s%n", rs.getString("Name"), rs.getString("Email"));
+        }
+
+        model.put("records", output);
+        return "index";
+      } catch (Exception e) {
+        model.put("message", e.getMessage());
+        return "error";
+      }
+      // return "index";
   }
 
-  // @RequestMapping("/db")
-  // String db(Map<String, Object> model) {
-  //   try (Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-35-174-88-65.compute-1.amazonaws.com/d1mhl73a6fevb9", "mgsvmsbodwlkui", "a6137c9c2b864ffce519baf9638c18e93f0908b7fcfada604710c71b9dcd2908")) {
- 
-  //           System.out.println("Java JDBC PostgreSQL Example");
-            // When this class first attempts to establish a connection, it automatically loads any JDBC 4.0 drivers found within 
-            // the class path. Note that your application must manually load any JDBC drivers prior to version 4.0.
-//          Class.forName("org.postgresql.Driver"); 
- 
-  //           System.out.println("Connected to PostgreSQL database!");
-  //           Statement statement = connection.createStatement();
-  //           System.out.println("Reading car records...");
-  //           System.out.printf("%-30.30s  %-30.30s%n", "Model", "Price");
-  //           ResultSet resultSet = statement.executeQuery("SELECT * FROM Salesforce.Contact");
-  //           ArrayList<String> output = new ArrayList<String>();
-  //           while (resultSet.next()) {
-  //             output.add("Name : " + resultSet.getString("Name") +"|| " +"Email : " +  resultSet.getString("Email"));
-  //             System.out.printf("%-30.30s  %-30.30s%n", resultSet.getString("Name"), resultSet.getString("Email"));
-  //           }
-  //           model.put("records", output);
-  //           }catch (SQLException e) {
-  //           System.out.println("Connection failure.");
-  //           e.printStackTrace();
-  //       }
-  //       return "db";
-  // }
+  @WebServlet("/save")
+  public class save extends HttpServlet {
+  
+      protected void doPost(HttpServletRequest request,
+              HttpServletResponse response) throws ServletException, IOException {
+          
+          // read form fields
+          String Name = request.getParameter("Name");
+          String LastName = request.getParameter("LastName");
+          String Email = request.getParameter("Email");
+          
+          System.out.println("Name: " + Name);
+          System.out.println("LastName: " + LastName);
+  
+          // do some processing here...
+          
+           try (Connection connection = dataSource.getConnection()) {
+            String queryInsert = " insert into Salesforce.Contact (Name,LastName,Email)"
+              + " values (?, ? , ?)";
+          
+            // create the mysql insert preparedstatement 
+            PreparedStatement preparedStmt = connection.prepareStatement(queryInsert);
+            preparedStmt.setString (1, "Name");
+            preparedStmt.setString (2, "LastName");
+            preparedStmt.setString (3, "Email");
+            preparedStmt.execute();
+             return "/"; 
+            } catch (Exception e) {
+            return "error";
+          }
+      }
+  }
+
+
   @RequestMapping(value="/redirect",method = RequestMethod.POST)    
   public String redirect(){     
     return "db";//will redirect to viewemp request mapping    
@@ -152,6 +183,8 @@ public class Main {
         // preparedStmt.setString(3, "Monkey D Luffy");
         // preparedStmt.executeUpdate();
 
+
+        //Function Select data Postges 
         Statement stmt = connection.createStatement();
        // ResultSet rs = stmt.executeQuery("SELECT * FROM Salesforce.Contact");
         ResultSet rs = stmt.executeQuery("SELECT * FROM public.contact"); //heroku
